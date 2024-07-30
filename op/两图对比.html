@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenSeaDragon Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/openseadragon.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+
+        #left,
+        #right {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        .tool {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background-color: rgba(0, 0, 0, 0.5);
+            cursor: ew-resize;
+            z-index: 10;
+        }
+
+        .overlay {
+            background: rgba(255, 0, 0, 0.5);
+            border: 1px solid red;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            cursor: pointer;
+        }
+
+        .tooltip {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid black;
+            padding: 5px;
+            z-index: 11;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="left"></div>
+        <div id="right"></div>
+        <div class="tool" id="splitter"></div>
+        <div class="tooltip" id="tooltip"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const leftViewer = OpenSeadragon({
+                id: "left",
+                prefixUrl: "https://openseadragon.github.io/openseadragon/images/",
+                tileSources: {
+                    type: 'image',
+                    url: './image/1.webp'
+                },
+                showNavigationControl: false
+            });
+
+            const rightViewer = OpenSeadragon({
+                id: "right",
+                prefixUrl: "https://openseadragon.github.io/openseadragon/images/",
+                tileSources: {
+                    type: 'image',
+                    url: './image/2.webp'
+                },
+                showNavigationControl: false
+            });
+
+            const syncViewers = (sourceViewer, targetViewer) => {
+                targetViewer.viewport.zoomTo(sourceViewer.viewport.getZoom(), null, true);
+                targetViewer.viewport.panTo(sourceViewer.viewport.getCenter(), true);
+            };
+
+            leftViewer.addHandler('viewport-change', () => syncViewers(leftViewer, rightViewer));
+            rightViewer.addHandler('viewport-change', () => syncViewers(rightViewer, leftViewer));
+
+            const splitter = document.getElementById('splitter');
+            let isDragging = false;
+
+            splitter.addEventListener('mousedown', () => isDragging = true);
+            document.addEventListener('mouseup', () => isDragging = false);
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const position = Math.min(Math.max(e.clientX, 30), window.innerWidth - 30);
+                splitter.style.left = `${position}px`;
+                document.getElementById('left').style.clipPath = `polygon(0 0, ${position}px 0, ${position}px 100%, 0 100%)`;
+                document.getElementById('right').style.clipPath = `polygon(${position}px 0, 100% 0, 100% 100%, ${position}px 100%)`;
+            });
+
+            const addOverlay = (viewer, id, x, y, description) => {
+                const element = document.createElement('div');
+                element.className = 'overlay';
+                element.id = id;
+                element.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    showTooltip(event.pageX, event.pageY, description);
+                });
+                element.addEventListener('mousedown', (event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                });
+
+                element.addEventListener('mouseup', (event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                });
+
+                element.addEventListener('mousemove', (event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                });
+                viewer.addOverlay({
+                    element: element,
+                    location: new OpenSeadragon.Point(x, y)
+                });
+            };
+
+            const showTooltip = (x, y, text) => {
+                const tooltip = document.getElementById('tooltip');
+                tooltip.style.left = `${x}px`;
+                tooltip.style.top = `${y}px`;
+                tooltip.innerHTML = text;
+                tooltip.style.display = 'block';
+            };
+
+            document.addEventListener('click', () => {
+                const tooltip = document.getElementById('tooltip');
+                tooltip.style.display = 'none';
+            });
+
+            addOverlay(leftViewer, 'overlay1', 0.5, 0.5, 'This is a description for overlay 1');
+            addOverlay(rightViewer, 'overlay2', 0.5, 0.5, 'This is a description for overlay 2');
+        });
+    </script>
+</body>
+
+</html>

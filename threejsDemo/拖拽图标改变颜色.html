@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Scene with Local Color Change</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        #draggable-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 0, 0, 0.5);
+            border: 2px solid red;
+            border-radius: 50%;
+            position: absolute;
+            cursor: move;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="draggable-icon"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // 顶点着色器
+        const vertexShader = `
+            varying vec3 vPosition;
+            void main() {
+                vPosition = position;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
+
+        // 片元着色器
+        const fragmentShader = `
+            uniform vec3 color;
+            uniform vec3 intersectPoint;
+            uniform float radius;
+            varying vec3 vPosition;
+            void main() {
+                float dist = distance(vPosition, intersectPoint);
+                if (dist < radius) {
+                    float t = smoothstep(0.0, radius, dist);
+                    gl_FragColor = vec4(mix(vec3(1.0, 0.0, 0.0), color, t), 1.0);
+                } else {
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            }
+        `;
+
+        // 设置场景、相机和渲染器
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // 创建一个立方体
+        const geometry = new THREE.BoxGeometry(2, 2, 2, 20, 20, 20);
+        const material = new THREE.ShaderMaterial({
+            uniforms: {
+                color: { value: new THREE.Color(0x00ff00) },
+                intersectPoint: { value: new THREE.Vector3() },
+                radius: { value: 0.5 }
+            },
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader
+        });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        camera.position.z = 5;
+
+        // 拖动功能
+        const icon = document.getElementById('draggable-icon');
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        icon.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        function dragStart(e) {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+
+            if (e.target === icon) {
+                isDragging = true;
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                setTranslate(currentX, currentY, icon);
+                checkIntersection(e);
+            }
+        }
+
+        function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+
+            isDragging = false;
+            resetCubeColor();
+        }
+
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+        }
+
+        // Raycasting 和颜色变化
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        function checkIntersection(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+
+            const intersects = raycaster.intersectObject(cube);
+
+            if (intersects.length > 0) {
+                const intersectPoint = intersects[0].point;
+                cube.material.uniforms.intersectPoint.value.copy(intersectPoint);
+            } else {
+                resetCubeColor();
+            }
+        }
+
+        function resetCubeColor() {
+            cube.material.uniforms.intersectPoint.value.set(0, 0, 1000);  // 设置一个远离立方体的点
+        }
+
+        // 动画循环
+        function animate() {
+            requestAnimationFrame(animate);
+            // cube.rotation.x += 0.01;
+            // cube.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // 窗口大小调整
+        window.addEventListener('resize', onWindowResize, false);
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+    </script>
+</body>
+
+</html>

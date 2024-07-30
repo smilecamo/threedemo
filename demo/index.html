@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../css/annotorious.min.css">
+  <style>
+    /* #viewer {
+      width: 800px;
+      height: 800px;
+    } */
+    .split-line {
+      position: absolute;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background-color: #666;
+      cursor: ew-resize;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <!-- Zoom controls -->
+    <div>
+      <span>Zoom</span>
+      <button class="btn zoom-trigger" data-type="in" title="Zoom In">Zoom In</button>
+      <button class="btn zoom-trigger" data-type="out" title="Zoom Out">Zoom Out</button>
+    </div>
+
+    <!-- Type controls -->
+    <div>
+      <span>Views</span>
+      <button class="btn view-trigger active" data-type="vis" title="Visible">Vis</button>
+      <button class="btn view-trigger active" data-type="xra" title="X-ray">Xray</button>
+      <button class="btn view-trigger" data-type="irr" title="Infrared">Ir</button>
+    </div>
+
+    <!-- Mode toggles -->
+    <div>
+      <span>Modes</span>
+      <button class="btn active mode-trigger mode-curtain" data-mode="curtain" title="Curtain Mode">Curtain</button>
+      <button class="btn mode-trigger mode-syncs" data-mode="sync" title="Sync Mode">Sync</button>
+    </div>
+  </nav>
+
+  <!-- Viewer Element -->
+  <div id="viewer"></div>
+  <div class="split-line" id="split-line"></div>
+  <div class="copyright">* All images courtesy of The Leiden Collection</div>
+
+  <!-- OpenSeadragon from CDN and Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/openseadragon@2.4/build/openseadragon/openseadragon.min.js"></script>
+  <script src="../src/openseadragon-curtain-sync.min.js"></script>
+  <script src="../src/openseadragon-annotorious.min.js"></script>
+  <!-- Demo Specific Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="scripts.js"></script>
+
+</body>
+
+</html>

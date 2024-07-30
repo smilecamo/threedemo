@@ -1,0 +1,216 @@
+.old-viewer, .viewer {
+  display: flex;
+  flex-direction: column;
+}
+
+.view-trigger {
+  border: 0px;
+  text-align: left;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+  line-height: 1.8rem;
+  border-radius: 3px;
+  cursor: pointer;
+  background-image: url(/images/sys/un-selected.svg);
+  background-repeat: no-repeat;
+  background-position: 95% center;
+}
+
+.view-trigger.active {
+  color: rgb(52, 111, 255);
+  background-color: rgb(231, 239, 255);
+  background-image: url(/images/sys/selected.svg);
+}
+
+.view-trigger:hover{
+  color: rgb(52, 111, 255);
+  background-color: rgb(231, 239, 255);
+}
+
+.mode-trigger {
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  background: whitesmoke;
+  line-height: 1.6rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+  margin-right: 0.6rem;
+  cursor: pointer;
+}
+
+.mode-trigger.active {
+  color: white;
+  background-color: rgb(52, 111, 255);
+}
+
+.mode-trigger:hover{
+  color: white;
+  background-color: rgb(52, 111, 255);
+}
+
+.dragger {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 500;
+}
+
+.viewer {
+  margin: auto 10px;
+}
+
+.vertical-bar {
+  width: 2px;
+  height: 80%;
+  background: rgb(221, 221, 221);
+}
+
+.anno-group-icon {
+  width: 16px;
+  height: 16px;
+  fill: red !important;
+  x: -8;
+  y: -8;
+}
+
+rect.anno-group-icon.color1 {
+  fill: #cb392d !important;
+}
+
+rect.anno-group-icon.color2 {
+  fill: #e66e2b !important;
+}
+
+rect.anno-group-icon.color3 {
+  fill: #ecb73e !important;
+}
+
+rect.anno-group-icon.color4 {
+  fill: #4cc227 !important;
+}
+
+rect.anno-group-icon.color5 {
+  fill: #00c278 !important;
+}
+
+rect.anno-group-icon.color6 {
+  fill: #4391f8 !important;
+}
+
+rect.anno-group-icon.color7  {
+  fill: #5b40f6 !important;
+}
+rect.anno-group-icon.color8  {
+  fill: #b92dc4 !important;
+}
+rect.anno-group-icon.color9  {
+  fill: #000000 !important;
+}
+rect.anno-group-icon.color10  {
+  fill: #7e0a0a !important;
+}
+rect.anno-group-icon.color11  {
+  fill: #b55c09 !important;
+}
+rect.anno-group-icon.color12  {
+  fill: #a68125 !important;
+}
+rect.anno-group-icon.color13  {
+  fill: #216d09 !important;
+}
+rect.anno-group-icon.color14  {
+  fill: #32eba4 !important;
+}
+rect.anno-group-icon.color15  {
+  fill: #0034a1 !important;
+}
+rect.anno-group-icon.color16  {
+  fill: #5a25ff !important;
+}
+rect.anno-group-icon.color17  {
+  fill: #a539d9 !important;
+}
+rect.anno-group-icon.color18  {
+  fill: #848484 !important;
+}
+rect.anno-group-icon.color19  {
+  fill: #ed2f2f !important;
+}
+rect.anno-group-icon.color20  {
+  fill: #ff8b1f !important;
+}
+rect.anno-group-icon.color21  {
+  fill: #deb85b !important;
+}
+rect.anno-group-icon.color22  {
+  fill: #abe072 !important;
+}
+rect.anno-group-icon.color23  {
+  fill: #a9d5c8 !important;
+}
+rect.anno-group-icon.color24  {
+  fill: #007bff !important;
+}
+rect.anno-group-icon.color25  {
+  fill: #7a4fff !important;
+}
+rect.anno-group-icon.color26  {
+  fill: #ff25c3 !important;
+}
+rect.anno-group-icon.color27  {
+  fill: #c0c0c0 !important;
+}
+rect.anno-group-icon.color28  {
+  fill: #ff8080 !important;
+}
+rect.anno-group-icon.color29  {
+  fill: #ffb168 !important;
+}
+rect.anno-group-icon.color30  {
+  fill: #f6d994 !important;
+}
+rect.anno-group-icon.color31  {
+  fill: #599fff !important;
+}
+rect.anno-group-icon.color32  {
+  fill: #ae93ff !important;
+}
+rect.anno-group-icon.color33  {
+  fill: #ffa1e5 !important;
+}
+rect.anno-group-icon.color34  {
+  fill: #68c3fa !important;
+}
+
+.a9s-formatter-el g {
+  x: 0;
+  y: 0;
+}
+
+.selected rect.a9s-inner {
+  fill: rgba(240, 36, 36, 0.3);
+}
+
+.a9s-annotation .a9s-outer, .a9s-selection .a9s-outer{
+  stroke: rgb(0, 0, 0) !important; 
+  stroke-width: 3px !important;
+  fill: none !important;
+}
+.a9s-annotation .a9s-inner, .a9s-selection .a9s-inner{
+  /* fill: none !important; */
+  pointer-events: auto !important;
+}
+.a9s-annotation rect, .a9s-annotation circle, .a9s-annotation ellipse, .a9s-annotation path, .a9s-annotation polygon, .a9s-annotation line, .a9s-selection rect, .a9s-selection circle, .a9s-selection ellipse, .a9s-selection path, .a9s-selection polygon, .a9s-selection line {
+  vector-effect: none !important;
+}
+
+.fragment-selector .a9s-outer, .a9s-selection .a9s-outer {
+  stroke: red !important;
+}
+
+.svg-selector .a9s-outer, .a9s-selection .a9s-outer {
+  stroke: orange !important;
+}
