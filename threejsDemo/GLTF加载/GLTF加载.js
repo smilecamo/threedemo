@@ -89,8 +89,6 @@ function loadGLTF() {
       computedFaceCount(modelGLTF).then((res) => {
         console.log("模型的面数:" + res);
       });
-      // 畅想-王振
-      // 我是群聊“新维畅想”的杨永举 想再次确认模型的面数
       animate(); // 开始动画循环
       setSprite();
     },

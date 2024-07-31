@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #handle {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px
+        }
+
+        .method {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            border: 1px solid blueviolet;
+            color: aliceblue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="handle">
+        <div id="play" class="method">播放</div>
+        <div id="scale" class="method">倍速</div>
+        <div id="loop" class="method">循环</div>
+        <div id="next" class="method">下一步</div>
+    </div>
+
+    <!-- 使用 import maps 来指定模块的导入路径 -->
+    <script type="importmap">
+        {
+                                        "imports": {
+                                            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                                            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+                                        }
+                                    }
+                                </script>
+    <script type="module" src="./init.js"></script>
+</body>
+
+</html>
