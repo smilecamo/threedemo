@@ -62,6 +62,7 @@ function css2RendererInit() {
   css2Renderer.domElement.style.position = "absolute";
   css2Renderer.domElement.style.top = "0px";
   css2Renderer.domElement.style.pointerEvents = "none"; // 禁止标签捕获鼠标事件
+  // sss
   document.body.appendChild(css2Renderer.domElement);
 }
 function layerInit() {
