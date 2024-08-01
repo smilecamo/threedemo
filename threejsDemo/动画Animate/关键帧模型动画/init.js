@@ -19,6 +19,8 @@ function init() {
   scene.add(axesHelper);
   const light = new THREE.AmbientLight(0xffffff); // 柔和的白光
   scene.add(light);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  scene.add(directionalLight);
   loadModel();
 }
 function loadModel() {
@@ -39,7 +41,6 @@ function animate() {
   renderer.render(scene, camera);
 }
 function animateAction() {
-  console.log(gltfModel);
   mixer = new THREE.AnimationMixer(gltfModel.scene);
   clipAction = mixer.clipAction(gltfModel.animations[0]); //创建动画clipAction对象
   clipAction.play();
@@ -47,7 +48,6 @@ function animateAction() {
 }
 
 function handleAnimateMethod() {
-  let timeScale = 1;
   let loop = true;
   clipAction.paused = true;
   document.getElementById("play").addEventListener("click", (e) => {
@@ -57,7 +57,7 @@ function handleAnimateMethod() {
       : (e.target.innerHTML = "暂停");
   });
   document.getElementById("scale").addEventListener("click", (e) => {
-    clipAction.timeScale = timeScale === 1 ? 10 : 1;
+    clipAction.timeScale = clipAction.timeScale === 1 ? 10 : 1;
   });
   document.getElementById("next").addEventListener("click", (e) => {
     clipAction.paused = true;
