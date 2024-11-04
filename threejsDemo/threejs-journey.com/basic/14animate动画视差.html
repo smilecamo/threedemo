@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>14animate动画视差</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      /* 删除 overflow: hidden，允许滚动 */
+    }
+
+    /* 主容器样式 */
+    .container {
+      position: relative;
+      background-color: #1e1a20;
+      overflow-y: scroll;
+    }
+
+    /* Canvas样式 */
+    .webgl {
+      position: fixed;
+      top: 0;
+      left: 0;
+      outline: none;
+    }
+
+    /* 章节通用样式 */
+    section {
+      display: flex;
+      align-items: center;
+      position: relative;
+      height: 100vh;
+      z-index: 10;
+      padding-left: 10%;
+      padding-right: 10%;
+    }
+
+    /* 标题样式 */
+    section h1,
+    section h2 {
+      color: #fbbf24;
+      /* 对应 text-yellow-400 */
+      font-size: 7vmin;
+      /* 添加文字阴影使其在深色背景上更清晰 */
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 偶数章节靠右对齐 */
+    section:nth-child(odd) {
+      justify-content: flex-end;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="webglWrap">
+    <canvas class="webgl"></canvas>
+    <section>
+      <h1>A circular shape</h1>
+    </section>
+    <section>
+      <h2>A cone</h2>
+    </section>
+    <section>
+      <h2>What's this?</h2>
+    </section>
+  </div>
+  <script type="module" src="/14animate动画视差.js"></script>
+</body>
+
+</html>

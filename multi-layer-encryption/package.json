@@ -1,5 +1,5 @@
 {
-  "name": "threejs-journey.com",
+  "name": "multi-layer-encryption",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,11 +9,9 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^5.4.1"
-  },
-  "dependencies": {
-    "gsap": "3.5",
-    "lil-gui": "^0.19.2",
-    "three": "^0.168.0"
+    "javascript-obfuscator": "^4.1.1",
+    "terser": "^5.36.0",
+    "vite": "^5.4.10",
+    "vite-plugin-obfuscator": "^1.0.5"
   }
 }
